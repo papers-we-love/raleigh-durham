@@ -10,12 +10,11 @@ Come share the ideas in an awesome academic/research paper with fellow engineers
 session and show off code that you wrote that implements these ideas or just give us the lowdown about the paper. Or,
 just come, listen, and discuss!
 
-We're curating this repository for papers presented at PWL Seattle. You can contribute by adding PR's for papers, code,
-and/or links to other repositories, like the _main_ Papers We Love repo, [here](https://github.com/papers-we-love/papers-we-love).
+We're curating this repository for papers presented at [Papers-We-Love-Raleigh-Durham](https://www.meetup.com/Papers-We-Love-Raleigh-Durham/). You can contribute by adding PR's for papers, code, and/or links to other repositories, like the _main_ Papers We Love repo, [here](https://github.com/papers-we-love/papers-we-love).
 
 ### Information
 
-Events are posted to the [RDU Computation Club meetup group](https://www.meetup.com/RDU-Computation-Club/).
+Events are posted to the [Papers-We-Love-Raleigh-Durham](https://www.meetup.com/Papers-We-Love-Raleigh-Durham/).
 Meetings will be held typically around Tuesdays once a month at Ettain Group.
 
 ### Contact
