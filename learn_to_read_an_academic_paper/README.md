@@ -1,5 +1,7 @@
-# API Design
+# Introduction
 
-* [Architectural Styles and the Design of Network-based Software Architectures (REST) by Roy Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf)
+* :scroll: [Introduction and First Steps](Introductions-and-First-Steps.pdf)
 
-* :scroll: [Little Manual of API Design](api-design.pdf)
+# Learn to Read an Academic Paper
+
+* :scroll: [Learn to Read an Academic Paper](learn-to-read-an-academic-paper.pdf)
