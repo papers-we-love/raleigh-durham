@@ -6,6 +6,7 @@
   1. [Introduction](#introduction)
   2. [Characteristics of Good APIs](#characteristics-of-good-apis)
     1. [Easy to learn and memorize](#easy-to-learn-and-memorize)
+    2. [Leads to readable code](#leads-to-readable-code)
 
 ## Introduction
 
@@ -74,4 +75,50 @@ I named this function in my api `md5` because it computes a hash value when give
 
 * Readable code is easier to document and maintain.
 * Readable code is always at the right level of abstraction.
-    * neither hiding important things nor forcing theprogrammer to specify irrelevant information
+    * it neither hides important things nor forces the programmer to specify irrelevant information
+
+
+Implement decode unsigned JSON web token function
+```javascript
+function decodeUnsignedJWT(jwt) {
+  const [
+    headerB64,
+    payloadB64
+   ] = jwt.split('.');
+  const headerStr = new Buffer(headerB64, 'base64').toString();
+  const payloadStr = new Buffer(payloadB64, 'base64').toString();
+  return {
+    header: JSON.parse(headerStr),
+    payload: JSON.parse(payloadStr)
+  };
+}
+```
+
+Unit test for decodeUnsignedJWT function
+```javascript
+test('decode should return base64 decoded string', assert => {
+  const header = {
+    alg: 'HS256'
+  };
+
+  const payload = {
+    name: 'John Rambo',
+    rank: 'Sergeant',
+    branch: 'Army'
+  };
+
+  const encodeUnsignedJWT = require('../../utils/encode').encodeUnsignedJWT;
+  const encoded = encodeUnsignedJWT({
+    header,
+    payload
+  });
+
+  const decodeUnsignedJWT = require('../../utils/decode').decodeUnsignedJWT;
+  const actual = decodeUnsignedJWT(encoded);
+  const expected = {
+    header: '{"alg":"HS256"}',
+    payload: '{"name":"John Rambo","rank":"Sergeant","branch":"Army"}'
+  };
+  assert.deepEqual(actual, expected, `should return ${expected}`);
+});
+```
