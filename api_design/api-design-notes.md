@@ -7,6 +7,7 @@
   2. [Characteristics of Good APIs](#characteristics-of-good-apis)
     1. [Easy to learn and memorize](#easy-to-learn-and-memorize)
     2. [Leads to readable code](#leads-to-readable-code)
+    3. [Hard to misuse](#hard-to-misuse)
 
 ## Introduction
 
@@ -71,7 +72,7 @@ I named this function in my api `md5` because it computes a hash value when give
 [MD5](https://en.wikipedia.org/wiki/MD5)
 > The MD5 algorithm is a widely used hash function producing a 128-bit hash value. Although MD5 was initially designed to be used as a cryptographic hash function, it has been found to suffer from extensive vulnerabilities. It can still be used as a checksum to verify data integrity, but only against unintentional corruption.
 
-## Leads to readable code
+### Leads to readable code
 
 * Readable code is easier to document and maintain.
 * Readable code is always at the right level of abstraction.
@@ -122,3 +123,22 @@ test('decode should return base64 decoded string', assert => {
   assert.deepEqual(actual, expected, `should return ${expected}`);
 });
 ```
+
+### Hard to Misuse
+
+> A well-designed API makes it easier to write correct code than incorrect code, and encourages good programming practices.
+It does not needlessly force the user to call methods in a strict order or to be aware of implicit side effects or semantic oddities.
+
+Make an API hard to misuse by eliminating redundancy. For example, an addItem(Item) method that lets the user write.
+```javascript
+const mySet = new Set();
+mySet.add(1);
+mySet.add(5);
+mySet.add('some text');
+mySet.keys() // SetIterator {1, 5, "some text"}
+```
+
+Above is some new ES2015 syntax in JavaScript for creating Sets.
+The Set object lets you store unique values of any type, whether primitive values or object references.
+
+As the paper states you want to design an api that is hard to use and in this case a set is good in order to have unique values and avoid duplicate values which can be problematic at times. 
