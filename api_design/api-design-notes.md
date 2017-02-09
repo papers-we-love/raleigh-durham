@@ -20,6 +20,16 @@
     7. [Prepare for extensions](#prepare-for-extensions)
     8. [Don’t publish internal APIs without review](#don\'-t-publish-internal-apis-without-review)
     9. [When in doubt, leave it out](#when-in-doubt-\,-leave-it-out)
+  4. [Design Guidelines](#design-guidelines)
+    1. [Choose self-explanatory names and signatures](#choose-self-explanatory-names-and-signatures)
+    2. [Choose unambiguous names for related things](#choose-unambiguous-names-for-related-things)
+    3. [Beware of false consistency](#beware-of-false-consistency)
+    4. [Avoid abbreviations](#avoid-abbreviations)
+    5. [Prefer specific names to general names](#prefer-specific-names-to-general-names)
+    6. [Don't be a slave of an underlying API's naming practices](#don\'-t-be-a-slave-of-an-underlying-api\'-s-naming-practices)
+  5. Semantics
+    1. [Choose good defaults](#choose-good-defaults)
+    2. [Avoid making your apis overly clever](#avoid-making-your-apis-overly-clever)
 
 ## Introduction
 
@@ -300,3 +310,194 @@ especially if you make any code changes via a pull request and add multiple revi
 * Wait for feedback from users.
   1. Author makes good point that you can't always add every feature that users want.
   2. Author suggest a rule of thumb to wait for 3 independent request for the same feature before implementing it.
+
+## Design Guidelines
+
+Author highlights the fact that in the end, you must think through API design and guidelines cannot substitute this.
+
+### Choose self-explanatory names and signatures
+
+* Pick names that are self-explanatory and can read like English.
+* The arguments of a function/method should be evident at the call site.
+
+```javascript
+function decodeUnsignedJWT(jwt) {
+  const [
+    headerB64,
+    payloadB64
+   ] = jwt.split('.');
+  const headerStr = new Buffer(headerB64, 'base64').toString();
+  const payloadStr = new Buffer(payloadB64, 'base64').toString();
+  return {
+    header: JSON.parse(headerStr),
+    payload: JSON.parse(payloadStr)
+  };
+}
+```
+
+The argument jwt indicates that this is a JSON Web Token (jwt).
+
+* Author argues that you should strive for consistency in naming and he also argues that consistency is important when fixing the order of parameters
+  1. If rectangles have the following signature `Rectangle(x, y, width, height)` then changing the order can break your API.
+
+I would argue here instead to use an object that way the order of the parameters isn't affected and adding a parameter anywhere from a caller won't affect the function.
+Here is an example function 
+
+```javascript
+function Demeter(soldier) {
+  this.name = soldier.name || '';
+  this.rank = soldier.rank || 'private';
+  this.specialty = soldier.specialty || [];
+  this.years = soldier.years || 0;
+  this.job = soldier.job || 'firefighter';
+  this.getInformation = function(newSoldier) {
+    return Object.assign(
+      {},
+      { name: this.name, rank: this.rank, specialty: this.specialty, years: this.years },
+      { exercise: newSoldier.exercise, branch: newSoldier.branch }
+    );
+  };
+  this.civilianPlan = {
+    printPlan: function() {
+      return `Civilian Job Plan: ${this.job}`;
+    }.bind(this)
+  };
+}
+```
+
+```javascript
+Demeter.prototype.soldierStats = function(newSoldier) {
+  return {
+    height: newSoldier.height,
+    weight: newSoldier.weight,
+    gender: newSoldier.gender,
+    age: newSoldier.age
+  };
+};
+```
+
+* Good naming also require that you know the audience.
+  1. You will need to use names that are consistent with the industry:
+      1. For example for auto parts supply application using jargon names consistent with auto parts would be good.
+      2. When you do this you should have good documentation.
+      3. If it is a high-level API meaning users are not as familiar than jargon should be used sparingly.
+  2. Parameter names are important in an API as a lot of users will be looking for intellisense if they are using an IDE.
+      1. Avoid single-letter parameter names but there are always exceptions.
+          1. Namely if you are finding the slope of a line `y = mx + b` then x, y, b, and m would be appropriate parameter names.
+
+### Choose unambiguous names for related things
+
+* If two or more concepts need to be clearly differentiated then choose names that map clearly to the concepts they denote.
+
+```javascript
+function Square() {}
+
+Square.prototype.setSide = function(side) {
+  this.side = side;
+};
+
+Square.prototype.area = function() {
+  return Math.pow(this.side, 2);
+};
+
+function Rectangle() {}
+
+Rectangle.prototype.setWidth = function(width) {
+  this.width = width;
+};
+
+Rectangle.prototype.setHeight = function(height) {
+  this.height = height;
+};
+
+Rectangle.prototype.area = function() {
+  return this.width * this.height;
+};
+
+function Circle() {}
+
+Circle.prototype.setPI = function(PI) {
+  this.PI = PI;
+};
+
+Circle.prototype.setRadius = function(radius) {
+  this.radius = radius;
+};
+
+Circle.prototype.area = function() {
+  return (this.PI * Math.pow(this.radius, 2)).toFixed(4);
+};
+```
+
+### Beware of false consistency
+
+Similar concepts should be grouped together and be of similar form
+
+**For example the in JavaScript the methods on `Array.prototype` such as `map`, `filter`, `forEach` all have a similar form and typically compose well together**
+
+Consequently if you have follow a convention of prefixing methods that set state such as `setSide` then don't suprise the users of your API by having it return a value instead of set a value.
+
+### Avoid abbreviations
+
+* During API design if you use obscure abbreviations then your users must remember which words and the associated context
+* Avoid using abbreviations like `setRad` and instead use `setRadius` to clearly mark what you intend to do.
+* Acronyms are still okay you don't have to spell out Hyper Text Markup Language as HTML is a commonly known term on the web.
+
+### Prefer specific names to general names
+
+* Using specific names helps users relate better to what you are API is doing.
+* Once you pick a general name it is hard to go back and change it to be more specific
+
+```javascript
+const readSoldiers = () => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(join(__dirname, '../../../data/soldiers.csv'), (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      const soldiers = data.toString().trim().split('\n');
+      resolve(soldiers);
+    });
+  });
+};
+
+const formatSoldiers = (soldiers) => {
+  return soldiers.map(soldier => soldier.split(',')).map((field) => {
+    return {
+      name: field[0],
+      rank: field[1],
+      branch: field[2]
+    };
+  });
+};
+
+const writeSoldiers = (soldiers) => {
+  return fs.writeFile(join(__dirname, 'soldiers.json'), JSON.stringify(soldiers), (err) => {
+    if (err) {
+      throw err;
+    }
+  });
+};
+```
+
+Here I choose readSoldiers, formatSoldiers, and writeSoldiers to denote what I am doing though I could have done `readSoldiersCSV` to be more specific.
+
+### Don't be a slave of an underlying API's naming practices
+
+Choose well intentioned names and don't blindly follow naming conventions from other APIs if you can find a more suitable name.
+
+## Semantics
+
+### Choose good defaults
+
+Presumably if you can set defaults for an API instead of having users need to do so then you can avoid possible errors.
+```javascript
+Object.assign({}, myObj, someObj)
+```
+
+can be good to merge defaults in JavaScript.
+
+### Avoid making your apis overly clever
+
+Here an important concept is the Single Responsibility principle (SRP), your functions should only do one thing and not have crazy side effects.
+
