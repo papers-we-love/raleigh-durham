@@ -30,6 +30,11 @@
   5. Semantics
     1. [Choose good defaults](#choose-good-defaults)
     2. [Avoid making your apis overly clever](#avoid-making-your-apis-overly-clever)
+    3. [Pay attention to edge cases](#pay-attention-to-edge-cases)
+    4. [Be careful when defining virtual APIs](#be-careful-when-defining-virtual-apis)
+  6. Structural
+    1. [Strive for property-based APIs](#strive-for-property-based-apis)
+    2. [The best API is no API](#the-best-api-is-no-api)
 
 ## Introduction
 
@@ -492,12 +497,153 @@ Choose well intentioned names and don't blindly follow naming conventions from o
 
 Presumably if you can set defaults for an API instead of having users need to do so then you can avoid possible errors.
 ```javascript
-Object.assign({}, myObj, someObj)
+const files = {
+  stats: [1, 2, 3, 4, 5]
+};
+const items = {
+  supplies: ['one', 'two', 'three']
+}
+function doTheThing({ files = files, items = items }) {
+  const defaults = Object.assign({}, files, items)
+  ....
+  ....
+}
 ```
 
-can be good to merge defaults in JavaScript.
+Using `Object.assign` can be good to merge defaults in JavaScript. instead of requiring users of your API complicated setup.
 
 ### Avoid making your apis overly clever
 
 Here an important concept is the Single Responsibility principle (SRP), your functions should only do one thing and not have crazy side effects.
+If your API methods are doing too many things and having lots of side effect then when users encounter bugs in your API it is hard for them to understand where things are breaking.
 
+```javascript
+const decodeBase64EncodedString = (str) => {
+  const usernameAndPassword = str.split(' ')[1];
+  const parseString = new Buffer(usernameAndPassword, 'base64').toString();
+  const [
+    username,
+    password
+  ] = parseString.split(':');
+  return {
+    username,
+    password
+  };
+};
+```
+
+```javascript
+const basicAuthExample = (req, res) => {
+  const {
+    authorization
+  } = req.headers;
+  if (authorization) {
+    const decodeString = decodeBase64EncodedString(authorization);
+    res.send(responseCodes['ok'], {
+      credentials: decodeString
+    });
+  } else {
+    res.setHeader('WWW-Authenticate', 'Basic realm="need login credentials"');
+    res.send(responseCodes['unauthorized'], {
+      errorMessage: 'Please provide base 64 encoded username and password'
+    });
+  }
+};
+```
+
+Here I have two separate functions one is decoding base 64 encoded string and the endpoint function is just handling what status code to return and what headers to set.
+
+### Pay attention to edge cases
+
+* Author argues that you should be alert to edge cases in your API because they can introduce subtle bugs that you didn't anticipate
+* Although not explicitly mention I believe here that Test-Driven Development can help with this.
+* If you start with a failing test and incrementally design your API you can come up with good test cases for corner cases
+
+Here is an example 
+
+```javascript
+function parseHeader(header) {
+  let opts = {};
+  let parts = header.split(' ');
+  let params = parts.slice(1).join(' ');
+
+  // Split the parameters by comma.
+  let tokens = params.split(/,(?=(?:[^"]|"[^"]*")*$)/);
+  if (parts[0].substr(0, 6) === 'Digest') {
+    // Parse parameters.
+    let i = 0;
+    let len = tokens.length;
+
+    while (++i < len) {
+      // Strip quotes and whitespace.
+      let param = /(\w+)=["]?([^"]*)["]?$/.exec(tokens[i]);
+      if (param) {
+        opts[param[1]] = param[2];
+      }
+    }
+  }
+  return opts;
+}
+```
+
+Test cases for Unit Tests to test this function
+1. Pass no arguments to parseHeader => `parseHeader()`
+2. Pass an object to parseHeader => `parseHeader({ value: 'Digest username="rambo", realm="https://localhost:3000/api/v1/digestScheme"'})`
+3. Pass an array to parseHeader => `parseHeader([{ value: 'Digest username="rambo", realm="https://localhost:3000/api/v1/digestScheme", nonce="Et2azM0urkTJmDb18rZnnwQb3"'}])`
+
+**The point being that I can use unit test to test edge cases effectively.**
+
+### Be careful when defining virtual APIs
+
+Well in Dynamic Programming Languages you have more of an implicit contract and so virtual functions is not a direct mapping here, 
+but one note I can say is that if you follow the SOLID principles
+1. Single Responsibility Principle
+2. Open/Closed Principle
+3. Liskov Substitution Principle
+4. Interface Segregation Principle
+5. Dependency Inversion Principle
+
+*Using the Open/Closed Principle you can say that Objects should be open for extension but closed for modification*
+*Meaning you shouldn't change the base objects at all but instead extend through your callers.**
+
+## Strive for property-based APIs
+
+The main point that the author makes here is that if you use properties such as setters instead of having many parameters to create an object you can have a more intuitive API.
+
+An example here would be like computing the slope of a line `y = mx + b`
+
+```javascript
+function Slope(x, y, m, b) {}
+```
+
+This function requires 4 parameters and can be problematic if I forget a parameter and switch parameters around, I will get unexpected behavior.
+
+If I instead set defaults and perhaps used setters like this then I am being more explicit.
+
+```javascript
+Slope.prototype.setX = function(x) {
+  this.x = x;
+}
+```
+
+```javascript
+Slope.prototype.getX = function() {
+  return this.x;
+}
+```
+
+Notes from the Author
+1. Users don’t need to remember in which order they need to supplythe attributes or options.
+2. User code is more readable and doesn’t require additional comments
+3. Since properties have default values, users only have to set those that they explicitly want to change 
+4. Users can change the value of a property at any time, instead ofhaving to replace the object with a new one whenever they want to modify it.
+5. By calling getters, users can query back everything they set, which helps debugging and is useful in some applications
+6. The approach is compatible with graphical property editors, which let the user see the result of setting a property immediately
+
+One thing to note is that doing this requires more work for the API designer as the author mentions.
+
+### The best API is no API
+
+> The ideal features are those that require no(or very little) additional code from the application writer.
+
+*Don't ask the consumers of your API to do more work than necessary to work with your API.*
