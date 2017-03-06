@@ -18,3 +18,34 @@ OK passed 100 tests.
 ```
 
 Quickcheck just ran 100 tests on the function `prop_revApp`
+
+The paper makes the assertion that QuickCheck changes the way you test code.
+
+**With QuickCheck you focus on the properties for the code under test needs to satisfy.**
+
+## Software Testing
+
+`Dijkstra's`
+> Program testing can at best show the presence of errors, but never their absence
+
+Author states that
+> Thus we can expect testing to be the main form of program verification fora long time to come—it is the only practical technique in most cases
+
+The point is made that with a CI process in place you can automate testing in your code base but there is still a dilemma on how many test cases to write.
+
+Do you write one test case or many test cases?
+
+The case is made to introduce QuickCheck into your CI process as it capture the general case and can generate many test cases that would be time consuming to write by hand.
+
+## Shrinking
+
+QuickCheck has the ability to shrink failing test cases. 
+
+```
+ghci> quickCheck prop_balanced
+Falsifiable, after 22 successful tests (shrunk failing case 10 times):
+[Insert (-9),Insert 12,Insert 8,Delete]
+```
+
+> In practice, much time is devoted either to simplifying a failing case by hand, or
+QuickCheck Testing for Fun and Profit11to debugging and tracing a complex case to understand why it fails. Shrinking failing cases automates the first stage of diagnosis, and makes the step from automated testing to locating a fault very short indeed
