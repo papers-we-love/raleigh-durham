@@ -47,5 +47,14 @@ Falsifiable, after 22 successful tests (shrunk failing case 10 times):
 [Insert (-9),Insert 12,Insert 8,Delete]
 ```
 
-> In practice, much time is devoted either to simplifying a failing case by hand, or
-QuickCheck Testing for Fun and Profit11to debugging and tracing a complex case to understand why it fails. Shrinking failing cases automates the first stage of diagnosis, and makes the step from automated testing to locating a fault very short indeed
+> In practice, much time is devoted either to simplifying a failing case by hand, or to debugging and tracing a complex case to understand why it fails. Shrinking failing cases automates the first stage of diagnosis, and makes the step from automated testing to locating a fault very short indeed
+
+## Quviq QuickCheck
+
+Steps to Install Erlang QuickCheck
+1. `brew install elixir`
+2. Download QuviQ on [QuviQ Downloads](http://www.quviq.com/downloads/) Page
+3. `cd eqcmini-2.01.0/eqcmini-2.01.0`
+4. Run the command `sudo iex`
+5. Run the command `:eqc_install.install()`
+    1. QuickCheck should now be installed
