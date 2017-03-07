@@ -58,3 +58,38 @@ Steps to Install Erlang QuickCheck
 4. Run the command `sudo iex`
 5. Run the command `:eqc_install.install()`
     1. QuickCheck should now be installed
+
+* The author explains that although porting QuickCheck from Haskell to Erlang seemed like a difficult task
+* Using Call By Name mechanism such as passing 0-ary (0 argument) parameters
+    * Erlang supports first-class functions
+    * Macros were used instead of first-class functions being passed around
+        * Simple Interface with macros used to build QuickCheck can be inferred.
+
+**Erlang quickcheck use is similar to haskell**
+
+As a side note some JavaScript libraries have been created and inspired from QuickCheck Haskell, Erlang
+
+[JsVerify](http://jsverify.github.io/)
+[TestCheckJS](http://leebyron.com/testcheck-js/)
+
+## State Machine Specifications
+
+* Author makes the point that they had instances where side effects occurred frequently along with pure functions.
+* Testing code with side effects is not an easy task.
+* Author says they made the point to represent test cases symbolically
+
+> The reason we chose a symbolic representation is that this makes it easy to printout test cases, store them in files for later use, analyze them to collect statistics or test properties, or—and this is important—write functions to shrink them.
+
+* How powerful should the test cases be?
+
+Author makes the distinction that they made their test cases simple by only adding a subset of commands.
+It is more important to see the path of failure than try to glean all possible paths.
+Which is why they iterated on the design.
+
+> During test  generation, the values returned by commands are unknown, so they cannot be used directly in further commands—yet we do  need to  generate commands that refer  to  them. The solution, of course, is to let symbolic test cases bind and reuse variables.
+
+* References for Staged Programming and State Machines:
+    * [Staged Programming](http://web.cecs.pdx.edu/~sheard/staged.html)
+    * [State Machines](https://en.wikipedia.org/wiki/Finite-state_machine)
+
+Author mentions that they utilitize callbacks in Erlang for their their state machine.
