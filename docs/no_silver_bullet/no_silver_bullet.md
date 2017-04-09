@@ -143,10 +143,43 @@ Applications for software tasks:
 * Suggest interface rules
 * Help with testing strategies
 * Optimization strategies
+* Argues that rule-based systems should become more hierarchically modularized in the same that a system does
+* Argues that test case generation is work that has to be done anyways and rules can help maintenance of a system
+
+Difficulties in Expert Systems:
+
+1. Difficult going from program structure specification to the semi-automatic generation of diagnostic rules
+2. Knowledge Acquisation is difficult for several reasons:
+  1. Finding experts that are articulate enough and understand why they do things.
+  2. Extracting information from experts in order to distill into the rule bases is another
+  3. Experts are required
+
+* Distilling knowledge to inexperienced programmers from the best programmers is also no simple task.
+* A tool that disseminates this knowledge is extremely important
 
 #### Automatic programming
 
+> In short, automatic programming always has been a euphemism for programming with a higher-level language than was presently available to the programmer.
+
+Automatic Programming favorable qualities:
+
+* The problems are readily characterized by relatively few parameters.
+* There are many known methods of solution to provide a library of alternatives.
+* Extensive analysis has led to explicit rules for selecting solution techniques, given problem parameters
+
+**Argues that such programming seems difficult to even achieve**
+
 #### Graphical Programming
+
+* Argues that uses of flow-chart is a poor abstraction of software construction
+* Argues that it is a useless design tool used by programmers since it is used after writing programs not before
+* Argues that desktop computer sophistication is a hindrance to software systems underlying complexity
+  * As this was written in 1986 many advances have occurred with software so not sure about this point
+* Argues that software is very difficult to visualize
+  * The following graphical tools:
+    * Diagram control flow, varible scope nesting, variable cross-references, data flow, hierarchical data structures
+    * Even with these tools it is difficult to get a global overview of a software system.
+* A software systems cannot be visualized in the same way that hardware systems can
 
 #### Program verification
 
