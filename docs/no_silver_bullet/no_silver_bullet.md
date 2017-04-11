@@ -183,16 +183,74 @@ Automatic Programming favorable qualities:
 
 #### Program verification
 
+* Argues that Program verification is powerful but labor intensive and very few programs have been proven correct
+* Argues that program verification can only assert that a program meets its specification
+
+> The hardest part of the software task is arriving at a complete and consistent specification, and much of the essence of building a program is in fact the debugging of the specification.
+
 #### Environments and tools
+
+* Smart Editors at most can help with syntactic errors and simple semantic errors
+* "Integrated Database Systems" that keep track of details that programmer's must understand
+  * I am assuming here that "Object Relational Mappers" could be considered nice tools to extract business logic
+  * Examples like linq instead of using Stored Procedures and Table Triggers
 
 #### Workstations
 
+* The point is made that even with factor of 10 speed increases in developer workstations you still have think time
+  * Think time being the time a developer uses modelling out business logic and program flow I assume
+
 ## Promising Attacks on the Conceptual Essence
+
+Productivity Equation:
+
+$$ \sum(Frequency)_i x (Time)_i $$
+
+Focusing on the task at hand or the conceptual essence is not the silver bullet as well
 
 #### Buy versus build
 
+* It is cheaper to buy production ready software than try to write homegrown software
+  * Argues that a software system costing $100,000 could be roughly equivalent to a yearly salary of a developer
+* Argument made that the ratio of hardware/software cost has changed dramatically
+  * if you spent 2 million on a piece of hardware then spending another $250,000 on software is a drop in the bucket
+* Development of spreadsheet and office technologies has enabled the mainline computer user to find new uses
+  * Argues such office software has the possibility of being a force multiplier in advances through novel uses
+
 #### Requirements refinement and rapid prototyping
+
+* Clients find it hard to nail down the exact requirements that they want
+* Will often take multiple versions of a prototype to nail down what the client wants
+* Points out that rapid prototype tools can assist greatly in solving software problems
+
+> The  purpose  of  the  prototype  is  to  make  real  the  conceptual  structure  specified,  so  that  the  client  can  test  it  for  consistency  and  usability
+
+**Iterative development and the use of prototypes is key to building satisfactory software system**
 
 #### Incremental development grow not build software
 
+* Calls for iterative development in software
+  * Flesh out details bit by bit in a system
+  * I would argue that TDD can help with such things by facilitating with incremental design
+
+> That is, the system should first be made to run, even though it does nothing useful except call the proper set of dummy subprograms.  Then, bit-by-bit it is fleshed out, with the subprograms in turn being developed into actions or calls to empty stubs in the level below
+
+* The main point is see in this section is that having a running system at all times keeps you focused and attentive
+
 #### Great designers
+
+* Good design can help drive quality of a system
+  * Organizations like the Software Engineering Institute help promote good software systems
+* Argues that great design minds (meaning individuals) can accomplish more than a committee of designers
+* Find ways to nurture highly creative minds as they can pave the way to the future
+  * Examples are given with Unix, SmallTalk, Fortran and others that were largely individual efforts
+* Argues that organizations must cultivate great designers just like they would with management prospects
+
+Highlights the following ways to grow great designers:
+
+* Systematically identify top designers as early as possible. The best are often not the most experienced
+* Assign a career mentor to be responsible for the development of the prospect, and keep a careful career file
+* Devise and maintain a career development plan for each prospect
+* including carefully selected apprenticeships with top designers, episodes of advanced formal education
+* short courses, all interspersed with solo design and technical leadership assignments
+* Provide opportunities for growing designers to interact with and stimulate each other
