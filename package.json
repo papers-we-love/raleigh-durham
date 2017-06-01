@@ -1,0 +1,31 @@
+{
+  "name": "raleigh-durham",
+  "version": "1.0.0",
+  "description": "Papers We Love Raleigh Durham",
+  "main": "index.js",
+  "scripts": {
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && rm -rf _book && gitbook build",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update docs' && git push git@github.com:papers-we-love/raleigh-durham.git gh-pages --force"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/papers-we-love/raleigh-durham.git"
+  },
+  "keywords": [
+    "Papers",
+    "We",
+    "Love"
+  ],
+  "author": "MIT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/papers-we-love/raleigh-durham/issues"
+  },
+  "homepage": "https://github.com/papers-we-love/raleigh-durham#readme",
+  "devDependencies": {
+    "gitbook": "^3.2.2",
+    "gitbook-cli": "^2.3.0"
+  }
+}

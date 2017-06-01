@@ -1,0 +1,468 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>QuickCheck · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../no_silver_bullet/no_silver_bullet.html" />
+    
+    
+    <link rel="prev" href="../api_design/api-design-notes.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../api_design/api-design-notes.html">
+            
+                <a href="../api_design/api-design-notes.html">
+            
+                    
+                    API Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="quickcheck.html">
+            
+                <a href="quickcheck.html">
+            
+                    
+                    QuickCheck
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../no_silver_bullet/no_silver_bullet.html">
+            
+                <a href="../no_silver_bullet/no_silver_bullet.html">
+            
+                    
+                    No Silver Bullet
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../database_metatheory/database_metatheory.html">
+            
+                <a href="../database_metatheory/database_metatheory.html">
+            
+                    
+                    Database Metatheory
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../reflections_on_trusting_trust/reflectionsOnTrustingTrust.html">
+            
+                <a href="../reflections_on_trusting_trust/reflectionsOnTrustingTrust.html">
+            
+                    
+                    Reflections on Trusting Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >QuickCheck</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="created-a-fork-of-a-repository-called-quickcheck-manual">Created a fork of a repository called QuickCheck-Manual</h2>
+<ol>
+<li>Clone the repository at <a href="https://github.com/jbelmont/quickcheck-manual.git" target="_blank">quickcheck-manual</a></li>
+<li>Move into the directory with <code>cd quickcheck-manual</code></li>
+<li>Read the <code>README.md</code> for steps on installing stack and setting up the project</li>
+<li>Run <code>stack setup</code></li>
+<li>Run <code>stack ghci</code></li>
+</ol>
+<p>Inside of the GHCI repl we will run the commands from the paper</p>
+<pre><code>ghci&gt; import Test.QuickCheck
+</code></pre><pre><code>ghci&gt; quickCheck prop_revApp
+OK passed 100 tests.
+</code></pre><p>Quickcheck just ran 100 tests on the function <code>prop_revApp</code></p>
+<p>The paper makes the assertion that QuickCheck changes the way you test code.</p>
+<p><strong>With QuickCheck you focus on the properties for the code under test needs to satisfy.</strong></p>
+<h2 id="software-testing">Software Testing</h2>
+<p><code>Dijkstra&apos;s</code></p>
+<blockquote>
+<p>Program testing can at best show the presence of errors, but never their absence</p>
+</blockquote>
+<p>Author states that</p>
+<blockquote>
+<p>Thus we can expect testing to be the main form of program verification fora long time to come&#x2014;it is the only practical technique in most cases</p>
+</blockquote>
+<p>The point is made that with a CI process in place you can automate testing in your code base but there is still a dilemma on how many test cases to write.</p>
+<p>Do you write one test case or many test cases?</p>
+<p>The case is made to introduce QuickCheck into your CI process as it capture the general case and can generate many test cases that would be time consuming to write by hand.</p>
+<h2 id="shrinking">Shrinking</h2>
+<p>QuickCheck has the ability to shrink failing test cases. </p>
+<pre><code>ghci&gt; quickCheck prop_balanced
+Falsifiable, after 22 successful tests (shrunk failing case 10 times):
+[Insert (-9),Insert 12,Insert 8,Delete]
+</code></pre><blockquote>
+<p>In practice, much time is devoted either to simplifying a failing case by hand, or to debugging and tracing a complex case to understand why it fails. Shrinking failing cases automates the first stage of diagnosis, and makes the step from automated testing to locating a fault very short indeed</p>
+</blockquote>
+<h2 id="quviq-quickcheck">Quviq QuickCheck</h2>
+<p>Steps to Install Erlang QuickCheck</p>
+<ol>
+<li><code>brew install elixir</code></li>
+<li>Download QuviQ on <a href="http://www.quviq.com/downloads/" target="_blank">QuviQ Downloads</a> Page</li>
+<li><code>cd eqcmini-2.01.0/eqcmini-2.01.0</code></li>
+<li>Run the command <code>sudo iex</code></li>
+<li><p>Run the command <code>:eqc_install.install()</code></p>
+<ol>
+<li>QuickCheck should now be installed</li>
+</ol>
+</li>
+<li><p>The author explains that although porting QuickCheck from Haskell to Erlang seemed like a difficult task</p>
+</li>
+<li>Using Call By Name mechanism such as passing 0-ary (0 argument) parameters<ul>
+<li>Erlang supports first-class functions</li>
+<li>Macros were used instead of first-class functions being passed around<ul>
+<li>Simple Interface with macros used to build QuickCheck can be inferred.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>Erlang quickcheck use is similar to haskell</strong></p>
+<p>As a side note some JavaScript libraries have been created and inspired from QuickCheck Haskell, Erlang</p>
+<p><a href="http://jsverify.github.io/" target="_blank">JsVerify</a>
+<a href="http://leebyron.com/testcheck-js/" target="_blank">TestCheckJS</a></p>
+<h2 id="state-machine-specifications">State Machine Specifications</h2>
+<ul>
+<li>Author makes the point that they had instances where side effects occurred frequently along with pure functions.</li>
+<li>Testing code with side effects is not an easy task.</li>
+<li>Author says they made the point to represent test cases symbolically</li>
+</ul>
+<blockquote>
+<p>The reason we chose a symbolic representation is that this makes it easy to printout test cases, store them in files for later use, analyze them to collect statistics or test properties, or&#x2014;and this is important&#x2014;write functions to shrink them.</p>
+</blockquote>
+<ul>
+<li>How powerful should the test cases be?</li>
+</ul>
+<p>Author makes the distinction that they made their test cases simple by only adding a subset of commands.
+It is more important to see the path of failure than try to glean all possible paths.
+Which is why they iterated on the design.</p>
+<blockquote>
+<p>During test  generation, the values returned by commands are unknown, so they cannot be used directly in further commands&#x2014;yet we do  need to  generate commands that refer  to  them. The solution, of course, is to let symbolic test cases bind and reuse variables.</p>
+</blockquote>
+<ul>
+<li>References for Staged Programming and State Machines:<ul>
+<li><a href="http://web.cecs.pdx.edu/~sheard/staged.html" target="_blank">Staged Programming</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">State Machines</a></li>
+</ul>
+</li>
+</ul>
+<p>Author mentions that they utilitize callbacks in Erlang for their their state machine.</p>
+<p>Steps for State Machine Logic:</p>
+<ol>
+<li>Command and PreCondition<ol>
+<li>Used to both generate and shrink test cases</li>
+</ol>
+</li>
+<li>PostCondition<ol>
+<li>Used during test execution to check the result of each command and that it satisfies the properties</li>
+</ol>
+</li>
+<li>Initial state and next state<ol>
+<li>Used during generation and test execution to keep track of the state of the test case.</li>
+</ol>
+</li>
+</ol>
+<h2 id="ericssons-media-proxy">Ericsson&#x2019;s Media Proxy</h2>
+<blockquote>
+<p>Even if the corruption was survivable in the normal case, it is obviously undersirable for a system to corrupt its data. 
+If nothing else, this is a trap lying in wait for any future developer modifying the code. 
+It is interesting that QuickCheck could reveal this fault, despite knowing nothing at all about the Proxy&#x2019;s internal data.</p>
+</blockquote>
+<h4 id="formulate-bug-preconditions">Formulate bug preconditions:</h4>
+<ul>
+<li>Helps formulate a hypothesis about when the bug appears.</li>
+<li>Test hypothesis by verifying that the precondition fixes the bug</li>
+<li>Document the bug by using a precondition </li>
+</ul>
+<h4 id="test-case-wisdom">Test Case Wisdom</h4>
+<ul>
+<li>During regular test case scenarios in unit-testing your follow the happy path or normal path<ul>
+<li>This in turn forms basis for future test cases</li>
+</ul>
+</li>
+<li>By generating test cases you can find bugs faster and more accuracy is what I am gleaning from the paper</li>
+</ul>
+<p><strong>Benefits of QuickCheck Testing</strong></p>
+<ul>
+<li>Bug Preconditions help clarify business rules</li>
+</ul>
+<h2 id="concurrency">Concurrency</h2>
+<p>Author makes the point in the paper that although testing Concurrent programs is difficult it is still useful.
+QuickCheck helped track down errors in erlang code and promoted a redesign of the &quot;distributed process registry&quot;</p>
+<blockquote>
+<p>Thus another way to use QuickCheck is to gain confidence that a formally verified algorithm has been correctly transferred to a real situation!</p>
+</blockquote>
+<h2 id="testing-imperative-code">Testing Imperative Code</h2>
+<p>Author makes the point that you can test Imperative code with QuickCheck.</p>
+<ul>
+<li>Use an interpreter for API calls<ul>
+<li>link the interpreter with the code under test and run in a separate process</li>
+<li>QuickCheck can then be used to generate sequences of call that are sent to the interpreter and to check the results that are sent back.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Indeed, it is already quite common to use a separate test scripting language, different from the implementation language of the code under test&#x2014;so why shouldn&#x2019;t that language be declarative.</p>
+</blockquote>
+<h2 id="erlang-vs-haskell">Erlang vs. Haskell</h2>
+<blockquote>
+<p>We initially expected an Erlang version to be a little clumsier to use than the Haskell original, because of the lack of lazy evaluation, Haskell&#x2019;s type system,and monadic syntax.</p>
+</blockquote>
+<p>Author is basically making the point that Haskell&apos;s Powerful type system and Monad Syntax was thought to be best suited for QuickCheck.</p>
+<blockquote>
+<p>Quviq QuickCheck permits any data-structure containing embedded generators to beused as a generator for data-structures of that shape&#x2014;something which is very convenient for users, but quite impossible in Haskell, where embedding a generator in a data-structure would normally result in a type error. </p>
+</blockquote>
+<p><strong>Quviq QuickCheck is the Erlang implementation of QuickCheck</strong></p>
+<blockquote>
+<p>In Erlang, we could represent a call just by two atoms and a (heterogenous)argument list, and provide a single generic interpreter run_commands, thanks to Erlang&#x2019;s ability to call a function given only its name and arguments.</p>
+</blockquote>
+<h2 id="discussion">Discussion</h2>
+<p>Author makes the point here that it is better to run smaller tests than large tests. Most errors can be found by a smaller test case.
+QuickCheck also is better utilized with small test cases.</p>
+<ul>
+<li>Developer will jump onto the first failing case</li>
+<li>Rerun the test case and start debugging the issue</li>
+<li>Test cases generated by hand are time consuming as well</li>
+<li>When new test cases can be generated by hand in seconds it helps reduce developer time on trivial edge cases.</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../api_design/api-design-notes.html" class="navigation navigation-prev " aria-label="Previous page: API Design">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../no_silver_bullet/no_silver_bullet.html" class="navigation navigation-next " aria-label="Next page: No Silver Bullet">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"QuickCheck","level":"1.3","depth":1,"next":{"title":"No Silver Bullet","level":"1.4","depth":1,"path":"docs/no_silver_bullet/no_silver_bullet.md","ref":"docs/no_silver_bullet/no_silver_bullet.md","articles":[]},"previous":{"title":"API Design","level":"1.2","depth":1,"path":"docs/api_design/api-design-notes.md","ref":"docs/api_design/api-design-notes.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["mathjax"],"pluginsConfig":{"mathjax":{"forceSVG":false,"version":"2.6-latest"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/quickcheck/quickcheck.md","mtime":"2017-03-08T02:48:38.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-01T19:03:25.487Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
